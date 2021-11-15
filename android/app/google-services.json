@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "196261949226",
+    "project_id": "resigest-5a467",
+    "storage_bucket": "resigest-5a467.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196261949226:android:f77f86fae4d70ecd573853",
+        "android_client_info": {
+          "package_name": "com.example.hsc_app_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196261949226-tgdr0f6tm0gnvu2o89ia8230crg3gl01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmL4Z0yx6zzZ9S546_AcwMkuqou1xJR-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196261949226-tgdr0f6tm0gnvu2o89ia8230crg3gl01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
