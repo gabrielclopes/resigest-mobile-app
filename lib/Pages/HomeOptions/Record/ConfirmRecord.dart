@@ -78,18 +78,21 @@ class _ConfirmRecordState extends State<ConfirmRecord> {
 
   Future<void> saveInfo  () async {
     CollectionReference collection = DataBaseService.fStore.collection("user_records");
-    // DocumentReference userid = collection.doc(AuthenticationService().getUserID());
     DocumentReference recordDoc = collection.doc();
 
-    await recordDoc.set( {
+    bool entrada = await DataBaseService.isInsideHospital() ? false : true;
+
+    await recordDoc.set({
       "dia" : _date,
       "hora" : _time.substring(0,2),
       "minuto" : _time.substring(3,5),
       "local": _address,
       "precisao": accuracy.toInt(),
-      "user_id": AuthenticationService().getUserID()
+      "user_id": AuthenticationService().getUserID(),
+      "entrada": entrada
     });
 
+    DataBaseService.updateStatus(entrada);
 
 
     Navigator.pop(context);

@@ -15,6 +15,8 @@ class DataBaseService {
 
   static final String nameField = "nome_completo";
   static final String emailField = "email";
+  static final String inHospitalField = "registrando_horas";
+
 
   Future<void> addUserDocument(String nome, String email) async {
     CollectionReference collection = fStore.collection(userCollection);
@@ -24,6 +26,7 @@ class DataBaseService {
     await userDoc.set( {
       nameField : nome,
       emailField : email,
+      inHospitalField: false
     });
 
   }
@@ -59,8 +62,33 @@ class DataBaseService {
       return null;
     }
   }
+  static Future<void> updateStatus(bool insideHospital) async {
+    CollectionReference collection = fStore.collection(userCollection);
+
+    DocumentReference userDoc = collection.doc(AuthenticationService().getUserID());
+
+    await userDoc.set( {
+      inHospitalField: insideHospital
+    },
+        SetOptions(merge: true)
+    );
+  }
 
 
+
+  static Future<bool> isInsideHospital() async {
+    try {
+      DocumentSnapshot dSnap = await fStore.collection(userCollection).
+      doc(AuthenticationService().getUserID()).get();
+
+      bool isInside = dSnap.get(inHospitalField);
+      return isInside;
+
+    } catch(e) {
+      print("erro: " + e.toString());
+      return false;
+    }
+  }
 
 
   Future<bool> validateQRcode(String code) async {

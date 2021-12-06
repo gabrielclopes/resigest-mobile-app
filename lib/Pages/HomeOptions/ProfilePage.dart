@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   File? _avatarIcon;
   Image? _image = Image.asset("assets/images/avatar.jpg", fit: BoxFit.fill,);
   bool hasImage = false;
-
+  bool insideHospital = false;
 
   @override
   void initState() {
@@ -91,7 +91,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 // EMAIL
                 Align(alignment: Alignment.centerLeft, child: Text("Email", style: TextStyle(fontSize: 18),),),
                 Align(alignment: Alignment.centerLeft, child: Text(email, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),),
-
+                SizedBox(height: 30,),
+                // Está no Hospital
+                Align(alignment: Alignment.centerLeft, child: Text(insideHospital ? "Residente está agora no hospital" : "Residente não está no hospital", style: TextStyle(fontSize: 18, color: Colors.blueGrey),),),
               ],
             ),
           ),
@@ -103,6 +105,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   setUpUserInfo() async {
     dynamic userData = await DataBaseService().getUserData();
+
+    insideHospital = await DataBaseService.isInsideHospital() ? true : false;
 
     if (userData != null) {
       String nome = userData[0];
@@ -147,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
     DataBaseService().retrieveUserPic().then((value) {
       if(value != "nao"){
         setState(() {
-          _image = Image.network(value.toString(), fit: BoxFit.fill,);
+          _image = Image.network(value.toString(), fit: BoxFit.cover,);
         });
       }
     });

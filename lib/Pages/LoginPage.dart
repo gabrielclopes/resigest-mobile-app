@@ -45,7 +45,9 @@ class _LoginPageState extends State<LoginPage> {
                         Fluttertoast.showToast(msg: "Conectado com sucesso", backgroundColor: Colors.grey);
                         Navigator.of(context).pushReplacementNamed("/home");
                       }
-                      Fluttertoast.showToast(msg: "Email não verificado!", backgroundColor: Colors.grey);
+                      else{
+                        Fluttertoast.showToast(msg: "Email não verificado!", backgroundColor: Colors.grey);
+                      }
                     }
                   }),
               SizedBox(height: 5),

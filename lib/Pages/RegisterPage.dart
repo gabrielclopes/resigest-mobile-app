@@ -37,18 +37,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 40),
                 Container(child: Image.asset("assets/images/HSC_logo.png"), width: 120,),
                 SizedBox(height: 50),
-                buildNameField(),
+                Fields(title: 'Nome completo', controller: nameController),
                 SizedBox(height: 20),
-                buildEmailField(),
+                Fields(title: 'Email', controller: emailController, isEmail: true),
                 SizedBox(height: 20),
-                buildPasswordField(),
+                Fields(title: 'Senha', controller: passwordController, obscureText: true),
                 SizedBox(height: 30),
                 MainButton(text: "Registrar",
                 onPressed:  () async {
                   if(verifyEmailAndPass())
                     if(await AuthenticationService().signUp(email: emailController.text, password: passwordController.text)) {
                       Fluttertoast.showToast(msg: "Registrado com sucesso", backgroundColor: Colors.grey);
-                      Fluttertoast.showToast(msg: "Um email de verificação foi enviado", backgroundColor: Colors.grey);
                       DataBaseService().addUserDocument(nameController.text, emailController.text);
                       Navigator.of(context).pushReplacementNamed("/email_conf");
                     }
@@ -72,50 +71,20 @@ class _RegisterPageState extends State<RegisterPage> {
       return false;
     }
     else if (!emailController.text.contains("@")){
-      Fluttertoast.showToast(msg: "Não é um email institucional", backgroundColor: Colors.grey);
+      Fluttertoast.showToast(msg: "Não é um email institucional válido", backgroundColor: Colors.grey);
       return false;
     }
     else if(passwordController.text.length <6) {
       Fluttertoast.showToast(msg: "Senha muito curta!", backgroundColor: Colors.grey);
       return false;
     }
-
     else
       return true;
   }
 
-
-  TextField buildEmailField() {
-    return TextField(
-      controller: emailController,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Email"),
-    );
-  }
-
-  TextField buildPasswordField() {
-    return TextField(
-      controller: passwordController,
-      obscureText: true,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Senha"),
-    );
-  }
-
-
-  TextField buildNameField() {
-    return TextField(
-      controller: nameController,
-      keyboardType: TextInputType.name,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: "Nome Completo"),
-    );
-  }
 }
+
+
 
 
 class MoveToRegisterWidget extends StatelessWidget {
@@ -128,6 +97,36 @@ class MoveToRegisterWidget extends StatelessWidget {
         onTap: () {Navigator.of(context).pushNamed("/register");},
         child: Text("Clique aqui para registrar uma nova conta."),
       ),
+    );
+  }
+}
+
+
+
+class Fields extends StatelessWidget {
+  final String title;
+  final TextEditingController controller;
+  final bool obscureText;
+  final bool isEmail;
+
+  const Fields({
+    Key? key,
+    required this.title,
+    required this.controller,
+    this.obscureText = false,
+    this.isEmail = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print("okoko");
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      keyboardType: isEmail ? TextInputType.emailAddress: TextInputType.name,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: title),
     );
   }
 }

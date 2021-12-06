@@ -1,5 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class AuthenticationService {
@@ -15,6 +17,11 @@ class AuthenticationService {
       );
       return Future<bool>.value(true);
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password'){
+        Fluttertoast.showToast(msg: "Usuário ou senha inválido(s)", backgroundColor: Colors.grey);
+      }
+
+
       print("Login_error = " + e.code);
       return Future<bool>.value(false);
     }
@@ -56,8 +63,10 @@ class AuthenticationService {
       {
         return false;
       }
-
   }
+
+
+
 
   Future<void> sendEmailVerification() async {
     User? user = fAuth.currentUser;
@@ -86,6 +95,7 @@ class AuthenticationService {
     }
     return "null";
   }
+
 
 
 
