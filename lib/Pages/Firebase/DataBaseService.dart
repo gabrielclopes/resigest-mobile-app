@@ -15,10 +15,12 @@ class DataBaseService {
 
   static final String nameField = "nome_completo";
   static final String emailField = "email";
+  static final String residenceTypeField = "residence_type";
+  static final String residenceNameField = "residence_field";
   static final String inHospitalField = "registrando_horas";
 
 
-  Future<void> addUserDocument(String nome, String email) async {
+  Future<void> addUserDocument(String nome, String email, String field, String type) async {
     CollectionReference collection = fStore.collection(userCollection);
 
     DocumentReference userDoc = collection.doc(AuthenticationService().getUserID());
@@ -26,7 +28,9 @@ class DataBaseService {
     await userDoc.set( {
       nameField : nome,
       emailField : email,
-      inHospitalField: false
+      inHospitalField: false,
+      residenceTypeField: type,
+      residenceNameField: field
     });
 
   }

@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     }
                   }),
-              SizedBox(height: 5),
+              SizedBox(height: 10),
               MoveToRegisterWidget(),
             ],
           ),
@@ -119,8 +119,8 @@ class MoveToRegisterWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {Navigator.of(context).pushNamed("/register");},
-        child: Text("Clique aqui para registrar uma nova conta."),
+        onTap: () {Navigator.of(context).pushNamed("/resi_selector");},
+        child: Text("Clique aqui para registrar uma nova conta"),
       ),
     );
   }

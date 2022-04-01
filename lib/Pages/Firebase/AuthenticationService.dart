@@ -31,7 +31,7 @@ class AuthenticationService {
     try {
       UserCredential userCredential = await fAuth.createUserWithEmailAndPassword(
           email: email,
-          password: password
+          password: password,
       );
       return Future<bool>.value(true);
     } on FirebaseAuthException catch (e) {

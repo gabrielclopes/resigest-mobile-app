@@ -9,6 +9,11 @@ import 'HomePage.dart';
 import 'Utilities/Decoration.dart';
 
 class RegisterPage extends StatefulWidget {
+  final String residenceType;
+  final String residenceField;
+
+  RegisterPage(this.residenceType, this.residenceField);
+
 
 
   @override
@@ -18,6 +23,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController repeatPasswordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
 
@@ -43,12 +49,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 20),
                 Fields(title: 'Senha', controller: passwordController, obscureText: true),
                 SizedBox(height: 30),
+                Fields(title: 'Repetir Senha', controller: repeatPasswordController, obscureText: true),
+                SizedBox(height: 30),
                 MainButton(text: "Registrar",
                 onPressed:  () async {
                   if(verifyEmailAndPass())
                     if(await AuthenticationService().signUp(email: emailController.text, password: passwordController.text)) {
                       Fluttertoast.showToast(msg: "Registrado com sucesso", backgroundColor: Colors.grey);
-                      DataBaseService().addUserDocument(nameController.text, emailController.text);
+                      DataBaseService().addUserDocument(nameController.text, emailController.text, widget.residenceField, widget.residenceType);
                       Navigator.of(context).pushReplacementNamed("/email_conf");
                     }
                   },
@@ -74,8 +82,12 @@ class _RegisterPageState extends State<RegisterPage> {
       Fluttertoast.showToast(msg: "Não é um email institucional válido", backgroundColor: Colors.grey);
       return false;
     }
-    else if(passwordController.text.length <6) {
-      Fluttertoast.showToast(msg: "Senha muito curta!", backgroundColor: Colors.grey);
+    else if(passwordController.text.length < 6) {
+      Fluttertoast.showToast(msg: "Senha muito curta", backgroundColor: Colors.grey);
+      return false;
+    }
+    else if(passwordController.text != repeatPasswordController.text) {
+      Fluttertoast.showToast(msg: "Senhas não coincidem", backgroundColor: Colors.grey);
       return false;
     }
     else
@@ -119,7 +131,6 @@ class Fields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("okoko");
     return TextField(
       controller: controller,
       obscureText: obscureText,

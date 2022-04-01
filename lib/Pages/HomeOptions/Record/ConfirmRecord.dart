@@ -82,6 +82,7 @@ class _ConfirmRecordState extends State<ConfirmRecord> {
 
     bool entrada = await DataBaseService.isInsideHospital() ? false : true;
 
+
     await recordDoc.set({
       "dia" : _date,
       "hora" : _time.substring(0,2),
