@@ -1,14 +1,12 @@
 
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/AuthenticationService.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/DataBaseService.dart';
 import 'package:hsc_app_flutter/Pages/Utilities/Decoration.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../HomePage.dart';
 
 
 
@@ -107,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
   setUpUserInfo() async {
-    dynamic userData = await DataBaseService().getUserData();
+    dynamic userData = await DataBaseService.getUserData();
 
     insideHospital = await DataBaseService.isInsideHospital() ? true : false;
 
@@ -124,7 +122,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     await loadImage();
 
-
   }
 
 
@@ -132,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future uploadPic() async{
     await getImage();
 
-    String fileName = ProfilePage.picFolder + AuthenticationService().getUserID() + "_pic";
+    String fileName = ProfilePage.picFolder + AuthenticationService.getUserID() + "_pic";
     Reference firebaseStorageRef = DataBaseService.fStorage.ref().child(fileName);
     UploadTask uploadTask = firebaseStorageRef.putFile(_avatarIcon as File);
     TaskSnapshot taskSnapshot = await uploadTask;
@@ -151,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
   Future loadImage() async{
-    DataBaseService().retrieveUserPic().then((value) {
+    DataBaseService.retrieveUserPic(AuthenticationService.getUserID()).then((value) {
       if(value != "nao"){
         setState(() {
           _image = Image.network(value.toString(), fit: BoxFit.cover,);

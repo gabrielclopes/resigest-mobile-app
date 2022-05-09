@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/DataBaseService.dart';
-import 'package:hsc_app_flutter/Pages/LoginPage.dart';
 import 'package:hsc_app_flutter/Pages/Utilities/MyButtons.dart';
 
-import 'Firebase/AuthenticationService.dart';
-import 'HomePage.dart';
-import 'Utilities/Decoration.dart';
+import '../Firebase/AuthenticationService.dart';
+import '../Utilities/Decoration.dart';
 
 class RegisterPage extends StatefulWidget {
   final String residenceType;

@@ -1,13 +1,7 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hsc_app_flutter/AppWidget.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/AuthenticationService.dart';
-import 'package:hsc_app_flutter/Pages/Firebase/DataBaseService.dart';
-import 'package:hsc_app_flutter/Pages/LoginPage.dart';
-import 'package:hsc_app_flutter/appController.dart';
-
-import '../UserModel.dart';
+import 'package:hsc_app_flutter/Pages/Utilities/Utils.dart';
+import 'Firebase/DataBaseService.dart';
 import 'Utilities/Decoration.dart';
 
 
@@ -153,12 +147,6 @@ class MainNavigationDrawer extends StatelessWidget {
     );
   }
 
-
-
-  // void signOut() {
-  //   AuthenticationService().signOut().then((value) => Navigator.of(context).pushNamed("/login"));
-  //
-  // }
 }
 
 
@@ -269,39 +257,65 @@ class ButtonsGrid extends StatelessWidget {
 
 
 // PROFILE ICON
-class ProfileIcon extends StatefulWidget {
-
-  @override
-  _ProfileIconState createState() => _ProfileIconState();
-}
-
-class _ProfileIconState extends State<ProfileIcon> {
+class ProfileIcon extends StatelessWidget {
   String _nome = '';
 
   @override
   Widget build(BuildContext context)  {
     return Column(
       children: [
-        IconButton(onPressed: (){
-          Navigator.of(context).pushNamed("/profile");
-        }, icon: Icon(Icons.account_circle), iconSize: 80,),
+        GestureDetector(
+          onTap: () => Navigator.of(context).pushNamed("/profile"),
+          child: FutureBuilder(
+            future: DataBaseService.retrieveUserPic(AuthenticationService.getUserID()),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return CircularProgressIndicator();
+              }
+              else{
+                if(snapshot.data.toString() == "nao"){
+                  return Icon(Icons.person, size: 90,);
+                }
+                else{
+                  return CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(snapshot.data.toString()),
+                  );
+                }
+              }
+
+            },
+          ),
+        ),
         buildText(),
       ],
     );
   }
 
   Widget buildText() {
-    // setNome();
+
+    return FutureBuilder(
+      future: DataBaseService.getUserData(),
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+          dynamic userData = snapshot.data;
+          return Text(
+            "Bem vindo(a) " + Utils.getFirstWord(userData[0]),
+            style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          );
+        }else{
+          return Text("");
+        }
+      },
+    );
     return Text(
       "Bem vindo(a)" + _nome,
       style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
     );
   }
 
-  // void setNome() {
-  //   _nome = DataBaseService().getUserData(DataBaseService.emailField);
-  // }
 }
+
 
 
 

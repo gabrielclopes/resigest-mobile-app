@@ -4,7 +4,7 @@ import 'package:hsc_app_flutter/Pages/Utilities/Decoration.dart';
 import 'package:hsc_app_flutter/Pages/Utilities/MyButtons.dart';
 
 import '../LoginPage.dart';
-import '../RegisterPage.dart';
+import 'RegisterPage.dart';
 import 'ResidenceSelector.dart';
 
 class MedicaSelector extends StatefulWidget {

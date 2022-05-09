@@ -1,11 +1,9 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:hsc_app_flutter/Pages/Firebase/AuthenticationService.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/DataBaseService.dart';
-import 'package:hsc_app_flutter/Pages/HomeOptions/ProfilePage.dart';
 import 'dart:io';
 
-import 'package:image_picker/image_picker.dart';
+import '../Firebase/AuthenticationService.dart';
+
 
 
 class UserProfile extends StatefulWidget {
@@ -91,7 +89,7 @@ class _UserProfileState extends State<UserProfile> {
 
 
   setUpUserInfo() async {
-    dynamic userData = await DataBaseService().getUserData();
+    dynamic userData = await DataBaseService.getUserData();
 
     if (userData != null) {
       String nome = userData[0];
@@ -111,7 +109,7 @@ class _UserProfileState extends State<UserProfile> {
 
 
   Future loadImage() async{
-    DataBaseService().retrieveUserPic().then((value) {
+    DataBaseService.retrieveUserPic(AuthenticationService.getUserID()).then((value) {
       if(value != "nao"){
         setState(() {
           _image = Image.network(value.toString(), fit: BoxFit.cover,);

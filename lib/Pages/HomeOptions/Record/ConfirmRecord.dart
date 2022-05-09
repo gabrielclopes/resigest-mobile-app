@@ -89,7 +89,7 @@ class _ConfirmRecordState extends State<ConfirmRecord> {
       "minuto" : _time.substring(3,5),
       "local": _address,
       "precisao": accuracy.toInt(),
-      "user_id": AuthenticationService().getUserID(),
+      "user_id": AuthenticationService.getUserID(),
       "entrada": entrada
     });
 

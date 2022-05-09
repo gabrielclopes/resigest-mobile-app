@@ -7,11 +7,11 @@ import 'package:hsc_app_flutter/Pages/HomeOptions/Record/ConfirmRecord.dart';
 import 'package:hsc_app_flutter/Pages/LoginPage.dart';
 import 'package:hsc_app_flutter/Pages/Register/MedicaSelector.dart';
 import 'package:hsc_app_flutter/Pages/Register/MultiSelector.dart';
-import 'package:hsc_app_flutter/Pages/RegisterPage.dart';
+import 'package:hsc_app_flutter/Pages/Register/RegisterPage.dart';
 import 'package:hsc_app_flutter/Pages/Register/ResidenceSelector.dart';
 import 'package:hsc_app_flutter/appController.dart';
 import 'Pages/HomeOptions/Record/DailyRecord.dart';
-import 'Pages/HomeOptions/UserChat.dart';
+import 'Pages/HomeOptions/UserChat/UserContacts.dart';
 import 'Pages/HomePage.dart';
 
 

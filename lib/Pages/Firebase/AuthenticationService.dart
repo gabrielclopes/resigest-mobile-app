@@ -88,7 +88,7 @@ class AuthenticationService {
 
 
 
-  String getUserID() {
+  static String getUserID() {
     User? user = fAuth.currentUser;
     if (user != null){
       return user.uid;

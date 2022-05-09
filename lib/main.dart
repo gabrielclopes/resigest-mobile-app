@@ -20,10 +20,7 @@ void main() async {
 
 void setUpNotification(FirebaseMessaging messaging) async {
 
-
   await FirebaseMessaging.instance.subscribeToTopic('main');
-
-
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
     announcement: false,
@@ -51,8 +48,8 @@ void setUpNotification(FirebaseMessaging messaging) async {
 }
 
 void _startPushNotificationsHandler(FirebaseMessaging messaging) async {
-  String? token = await messaging.getToken();
-  print('TOKEN: $token');
+  // String? token = await messaging.getToken();
+  // print('TOKEN: $token');
 
   // Mensagem em foreground
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {

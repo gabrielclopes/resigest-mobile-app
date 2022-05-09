@@ -10,24 +10,30 @@ class DataBaseService {
   static final fStorage = FirebaseStorage.instance;
 
   static final String userCollection = "user";
+  static final String chatCollection = "chat";
   static final String keyCollection = "keys";
 
 
   static final String nameField = "nome_completo";
   static final String emailField = "email";
+  static final String idField = "userId";
   static final String residenceTypeField = "residence_type";
   static final String residenceNameField = "residence_field";
   static final String inHospitalField = "registrando_horas";
 
 
+
   Future<void> addUserDocument(String nome, String email, String field, String type) async {
     CollectionReference collection = fStore.collection(userCollection);
 
-    DocumentReference userDoc = collection.doc(AuthenticationService().getUserID());
+    String userId = AuthenticationService.getUserID();
+
+    DocumentReference userDoc = collection.doc(userId);
 
     await userDoc.set( {
       nameField : nome,
       emailField : email,
+      idField: userId,
       inHospitalField: false,
       residenceTypeField: type,
       residenceNameField: field
@@ -35,14 +41,14 @@ class DataBaseService {
 
   }
 
-  Future<String> retrieveUserPic() async {
-    String fileName = ProfilePage.picFolder + AuthenticationService().getUserID() + "_pic";
+  static Future<String> retrieveUserPic(String userId) async {
+
+    String fileName = ProfilePage.picFolder + userId + "_pic";
 
     var child = DataBaseService.fStorage.ref().child(fileName);
     try {
       return await child.getDownloadURL();
     }catch(error){
-      print("erro: " + error.toString());
       return "nao";
     }
 
@@ -52,11 +58,10 @@ class DataBaseService {
 
 
 
-  Future getUserData() async {
+  static Future getUserData() async {
     try {
       DocumentSnapshot dSnap = await fStore.collection(userCollection).
-      doc(AuthenticationService().getUserID()).get();
-
+      doc(AuthenticationService.getUserID()).get();
       String name = dSnap.get(nameField);
       String email = dSnap.get(emailField);
       return [name, email];
@@ -69,7 +74,7 @@ class DataBaseService {
   static Future<void> updateStatus(bool insideHospital) async {
     CollectionReference collection = fStore.collection(userCollection);
 
-    DocumentReference userDoc = collection.doc(AuthenticationService().getUserID());
+    DocumentReference userDoc = collection.doc(AuthenticationService.getUserID());
 
     await userDoc.set( {
       inHospitalField: insideHospital
@@ -83,7 +88,7 @@ class DataBaseService {
   static Future<bool> isInsideHospital() async {
     try {
       DocumentSnapshot dSnap = await fStore.collection(userCollection).
-      doc(AuthenticationService().getUserID()).get();
+      doc(AuthenticationService.getUserID()).get();
 
       bool isInside = dSnap.get(inHospitalField);
       return isInside;
@@ -108,13 +113,12 @@ class DataBaseService {
         }
       });
     });
-
-
     return valid;
   }
 
-
-
-
-
 }
+
+
+// FirebaseApi {
+//
+// }

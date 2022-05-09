@@ -8,6 +8,8 @@ import 'MyButtons.dart';
 //-------------DECORATION----------------
 class DecorationClass {
 
+  static Color whiteColor = Colors.white;
+
   BoxDecoration boxDecoration() {
     return BoxDecoration(
         boxShadow: [
