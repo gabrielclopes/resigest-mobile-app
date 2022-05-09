@@ -60,7 +60,6 @@ class ChatBodyWidget extends StatelessWidget {
                 builder: (context) => ChatPage(user: user),
               ));
             },
-            // leading: Icon(Icons.person),
             leading: FutureBuilder(
               future: DataBaseService.retrieveUserPic(user.idUser),
               builder: (context, snapshot){
@@ -72,8 +71,6 @@ class ChatBodyWidget extends StatelessWidget {
                     return Icon(Icons.person, size: 50,);
                   }
                   else{
-                    print("test");
-
                     return CircleAvatar(
                       radius: 28,
                       backgroundColor: (user.residenceType == 'medica') ? Colors.blueAccent : Colors.greenAccent[700],

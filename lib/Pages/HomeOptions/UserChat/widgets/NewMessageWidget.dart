@@ -73,7 +73,6 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
     String urlPic = await DataBaseService.retrieveUserPic(myId);
     dynamic userData = await DataBaseService.getUserData();
 
-    print("xxxxx" + message);
     await FirebaseApi.uploadMessage(widget.idUser, message, myId, urlPic, userData[0]);
     _controller.clear();
   }

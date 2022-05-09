@@ -31,7 +31,6 @@ void setUpNotification(FirebaseMessaging messaging) async {
     sound: true,
   );
 
-  print("aaaaa");
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
     print('Permissão concedida pelo usuário: ${settings.authorizationStatus}');
     _startPushNotificationsHandler(messaging);

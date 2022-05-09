@@ -31,7 +31,14 @@ class FirebaseApi{
 
     // final refUsers = DataBaseService.fStore.collection(DataBaseService.userCollection);
     // await refUsers.doc(id).update({UserField.lastMessageTime: DateTime.now()});
-
   }
+
+  static Stream<List<Message>> getMessages(String idUser) =>
+      DataBaseService.fStore
+      .collection("${DataBaseService.chatCollection}/$idUser/messages")
+      .orderBy(MessageField.createdAt, descending: true)
+      .snapshots()
+      .transform(Utils.transformer(Message.fromJson));
+
 
 }

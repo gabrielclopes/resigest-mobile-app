@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hsc_app_flutter/Constants/Constants.dart';
 import 'package:hsc_app_flutter/Pages/EmailConfirmationPage.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/AuthenticationService.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/ProfilePage.dart';
@@ -51,14 +52,19 @@ class AuthenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(AuthenticationService().isSignedIn())
+    if(AuthenticationService().isSignedIn()){
+      retrieveId();
       return HomePage();
+    }
     else
       return LoginPage();
 
-
   }
 
-
-
+  void retrieveId(){
+    myId = AuthenticationService.getUserID();
+  }
 }
+
+
+
