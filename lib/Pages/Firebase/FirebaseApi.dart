@@ -1,9 +1,9 @@
 import 'dart:async';
-
+import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hsc_app_flutter/Constants/Constants.dart';
 import 'package:hsc_app_flutter/Model/Message.dart';
 import 'package:hsc_app_flutter/Model/User.dart';
-import 'package:hsc_app_flutter/Pages/Firebase/AuthenticationService.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/DataBaseService.dart';
 import 'package:hsc_app_flutter/Pages/Utilities/Utils.dart';
 
@@ -36,9 +36,35 @@ class FirebaseApi{
   static Stream<List<Message>> getMessages(String idUser) =>
       DataBaseService.fStore
       .collection("${DataBaseService.chatCollection}/$idUser/messages")
+      .where("idUser",isEqualTo: myId)
       .orderBy(MessageField.createdAt, descending: true)
       .snapshots()
       .transform(Utils.transformer(Message.fromJson));
 
+
+
+  // static void getMessages2(String idUser) {
+  //   Stream<QuerySnapshot> refSender = DataBaseService.fStore
+  //       .collection("${DataBaseService.chatCollection}/$idUser/messages")
+  //       .where("idUser",isEqualTo: myId)
+  //       .orderBy(MessageField.createdAt, descending: true)
+  //       .snapshots();
+  //
+  //   Stream<QuerySnapshot> refReceiver = DataBaseService.fStore
+  //       .collection("${DataBaseService.chatCollection}/$myId/messages")
+  //       .where("idUser",isEqualTo: idUser)
+  //       .orderBy(MessageField.createdAt, descending: true)
+  //       .snapshots();
+  //
+  //   List<Stream<QuerySnapshot>> combineList = [refSender, refReceiver];
+  //
+  //   // var newStream = Rx.combineLatest2(
+  //   //   refSender, refReceiver,
+  //   //     (List<Message>, List<Message>, )
+  //   // )
+  //   print("ok");
+  //   Rx.combineLatest(combineList, (values) => print("+++++ " + values.toString()));
+  //   // return
+  // }
 
 }

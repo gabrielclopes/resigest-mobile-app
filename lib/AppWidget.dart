@@ -53,7 +53,6 @@ class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(AuthenticationService().isSignedIn()){
-      retrieveId();
       return HomePage();
     }
     else

@@ -16,7 +16,6 @@ class MessagesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StreamBuilder<List<Message>>(
-
         stream: FirebaseApi.getMessages(idUser),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
@@ -24,26 +23,28 @@ class MessagesWidget extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             default:
               if (snapshot.hasError) {
-                return buildText('Something Went Wrong Try later');
+                return buildText('Algum erro inesperado aconteceu :(');
               } else {
                 final messages = snapshot.data;
-                if(messages != null){
+                if (messages != null) {
                   return messages.isEmpty
-                      ? buildText('Comece a conversa! ..')
+                      ? buildText('Comece a conversa com um oi!')
                       : ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    reverse: true,
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      return MessageWidget(
-                        message: message,
-                        isMe: message.idUser == myId,
-                      );
-                    },
-                  );
-                } else {return Text("");}
+                          physics: BouncingScrollPhysics(),
+                          reverse: true,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final message = messages[index];
 
+                            return MessageWidget(
+                              message: message,
+                              isMe: message.idUser == myId,
+                            );
+                          },
+                        );
+                } else {
+                  return Text("");
+                }
               }
           }
         },

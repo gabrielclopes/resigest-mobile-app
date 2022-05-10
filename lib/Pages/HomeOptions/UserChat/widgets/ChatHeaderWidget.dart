@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hsc_app_flutter/Constants/Constants.dart';
 
 import '../../../../Model/User.dart';
 
@@ -20,11 +21,12 @@ class ChatHeaderWidget extends StatelessWidget {
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             width: MediaQuery.of(context).size.width *75,
-            child: Text("teste123"),
-
+            child: Center(child: Text("Em desenvolvimento...")),
           )
 
         ],

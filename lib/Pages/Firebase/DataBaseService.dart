@@ -12,7 +12,7 @@ class DataBaseService {
   static final String userCollection = "user";
   static final String chatCollection = "chat";
   static final String keyCollection = "keys";
-
+  static final String messageCollection = "messages";
 
   static final String nameField = "nome_completo";
   static final String emailField = "email";

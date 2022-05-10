@@ -4,11 +4,11 @@ import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/NewMessageWid
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/ProfileHeaderWidget.dart';
 
 import '../../../Model/User.dart';
+import '../../Firebase/FirebaseApi.dart';
 
 
 class ChatPage extends StatefulWidget {
   final User user;
-
 
   const ChatPage({
     required this.user,
@@ -19,6 +19,11 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+
+
+
+
+
   @override
   Widget build(BuildContext context) => Scaffold(
     extendBodyBehindAppBar: true,

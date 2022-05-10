@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/AuthenticationService.dart';
 import 'package:hsc_app_flutter/Pages/Utilities/Utils.dart';
+import '../Constants/Constants.dart';
 import 'Firebase/DataBaseService.dart';
 import 'Utilities/Decoration.dart';
 
@@ -18,13 +19,19 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
 
   final Color cor = Color(0xFF00468F);
-  static double width = 0;
-  static double height = 0;
 
+  @override
+  void initState() {
+    retrieveId();
+    super.initState();
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: buildAppBar(),
@@ -32,8 +39,8 @@ class HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
             image: DecorationImage(image: AssetImage("assets/images/background_home.png"), alignment: Alignment.topCenter, fit: BoxFit.fitWidth)
         ),
-        width: width = MediaQuery.of(context).size.width,
-        height: height = MediaQuery.of(context).size.height,
+        width: width,
+        height: height,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -48,6 +55,9 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  void retrieveId(){
+    myId = AuthenticationService.getUserID();
+  }
 
   void closeApp() {       //close the application
     // SystemChannels.platform.invokeMethod('SystemNavigator.pop');
