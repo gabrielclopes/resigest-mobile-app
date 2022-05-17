@@ -1,8 +1,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:hsc_app_flutter/Pages/Firebase/FirebaseApi.dart';
 import 'package:hsc_app_flutter/Pages/Utilities/Decoration.dart';
 
+import '../../../../Constants/Constants.dart';
 import '../../../../Model/User.dart';
 import '../../../Firebase/DataBaseService.dart';
 import '../UserChat.dart';
@@ -55,9 +57,10 @@ class ChatBodyWidget extends StatelessWidget {
               border: Border.all(color: outlineColor, width: 2)
           ),
           child: ListTile(
-            onTap: (){
+            onTap: ()async{
+              String chatPath = await FirebaseApi.getChatPath(myId, user.idUser);
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ChatPage(user: user),
+                builder: (context) => ChatPage(user: user, chatPath: chatPath),
               ));
             },
             leading: FutureBuilder(

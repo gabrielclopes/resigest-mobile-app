@@ -6,10 +6,10 @@ import '../../../Firebase/DataBaseService.dart';
 import '../../../Firebase/FirebaseApi.dart';
 
 class NewMessageWidget extends StatefulWidget {
-  final String idUser;
+  final String chatPath;
 
   const NewMessageWidget({
-    required this.idUser,
+    required this.chatPath,
     Key? key}) : super(key: key);
 
 
@@ -73,7 +73,8 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
     String urlPic = await DataBaseService.retrieveUserPic(myId);
     dynamic userData = await DataBaseService.getUserData();
 
-    await FirebaseApi.uploadMessage(widget.idUser, message, myId, urlPic, userData[0]);
+    // FirebaseApi.getChatPath(myId, widget.user.idUser).then((value) => print("xxx" + value));
+    await FirebaseApi.uploadMessage(widget.chatPath, message, myId, urlPic, userData[0]);
     _controller.clear();
   }
 

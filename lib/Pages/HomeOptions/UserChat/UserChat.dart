@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hsc_app_flutter/Constants/Constants.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/MessagesWidget.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/NewMessageWidget.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/ProfileHeaderWidget.dart';
 
 import '../../../Model/User.dart';
-import '../../Firebase/FirebaseApi.dart';
 
 
 class ChatPage extends StatefulWidget {
   final User user;
+  final String chatPath;
 
   const ChatPage({
     required this.user,
+    required this.chatPath,
     Key? key }) : super(key: key);
 
   @override
@@ -19,9 +21,10 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-
-
-
+  @override
+  void initState() {
+    super.initState();
+  }
 
 
   @override
@@ -42,10 +45,10 @@ class _ChatPageState extends State<ChatPage> {
                   topRight: Radius.circular(25),
                 ),
               ),
-              child: MessagesWidget(idUser: widget.user.idUser),
+              child: MessagesWidget(chatPath: widget.chatPath),
             ),
           ),
-          NewMessageWidget(idUser: widget.user.idUser)
+          NewMessageWidget(chatPath: widget.chatPath)
         ],
       ),
     ),

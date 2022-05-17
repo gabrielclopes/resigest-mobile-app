@@ -118,7 +118,7 @@ class MainNavigationDrawer extends StatelessWidget {
             ),
             Column(children:[
               buildBottom("Sair", context),
-              SizedBox(height: 10)],
+              SizedBox(height: 50)],
             ),
           ],
         ),

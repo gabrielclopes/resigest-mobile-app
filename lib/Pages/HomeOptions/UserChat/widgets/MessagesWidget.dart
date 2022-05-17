@@ -8,15 +8,17 @@ import 'MessageWidget.dart';
 
 
 class MessagesWidget extends StatelessWidget {
-  final String idUser;
+  final String chatPath;
+
 
   const MessagesWidget({
-    required this.idUser,
+    required this.chatPath,
     Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) => StreamBuilder<List<Message>>(
-        stream: FirebaseApi.getMessages(idUser),
+        stream: FirebaseApi.getMessages(chatPath),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:

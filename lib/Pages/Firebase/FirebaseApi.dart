@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hsc_app_flutter/Constants/Constants.dart';
 import 'package:hsc_app_flutter/Model/Message.dart';
 import 'package:hsc_app_flutter/Model/User.dart';
 import 'package:hsc_app_flutter/Pages/Firebase/DataBaseService.dart';
@@ -17,8 +17,9 @@ class FirebaseApi{
 
 
 
-  static Future uploadMessage(String id, String message, String myId, String urlPic, String myName) async {
-    final refMessages = DataBaseService.fStore.collection("${DataBaseService.chatCollection}/$id/messages");
+  static Future uploadMessage(String chatPath, String message, String myId, String urlPic, String myName) async {
+    // String chatPath = await FirebaseApi.getChatPath(myId, id);
+    final refMessages = DataBaseService.fStore.collection(chatPath);
 
     final newMessage = Message(
         idUser: myId,
@@ -33,38 +34,42 @@ class FirebaseApi{
     // await refUsers.doc(id).update({UserField.lastMessageTime: DateTime.now()});
   }
 
-  static Stream<List<Message>> getMessages(String idUser) =>
+  static Future<String> getChatPath(String myId, String userId) async {
+    final refChat = DataBaseService.fStore.collection("${DataBaseService.chatCollection}");
+    String usersChatField = "users";
+
+    var x = await refChat.where(usersChatField, arrayContains: myId).get();
+    bool chatExists = false;
+    String docId = "";
+
+    x.docs.forEach((document) {
+      List<dynamic> arr = document.get(usersChatField);
+      if(arr.contains(userId)){
+        chatExists = true;
+        docId = document.id;
+      }
+    });
+    if (!chatExists){
+      DocumentReference doc = await refChat.add({
+        usersChatField: [myId, userId]
+      });
+      docId = doc.id;
+    }
+    return "${DataBaseService.chatCollection}/$docId/messages";
+  }
+
+
+  static Stream<List<Message>> getMessages(String chatPath) =>
       DataBaseService.fStore
-      .collection("${DataBaseService.chatCollection}/$idUser/messages")
-      .where("idUser",isEqualTo: myId)
+      .collection(chatPath)
       .orderBy(MessageField.createdAt, descending: true)
       .snapshots()
       .transform(Utils.transformer(Message.fromJson));
 
 
 
-  // static void getMessages2(String idUser) {
-  //   Stream<QuerySnapshot> refSender = DataBaseService.fStore
-  //       .collection("${DataBaseService.chatCollection}/$idUser/messages")
-  //       .where("idUser",isEqualTo: myId)
-  //       .orderBy(MessageField.createdAt, descending: true)
-  //       .snapshots();
+  // static void retrieveMessages(String idUser) {
   //
-  //   Stream<QuerySnapshot> refReceiver = DataBaseService.fStore
-  //       .collection("${DataBaseService.chatCollection}/$myId/messages")
-  //       .where("idUser",isEqualTo: idUser)
-  //       .orderBy(MessageField.createdAt, descending: true)
-  //       .snapshots();
-  //
-  //   List<Stream<QuerySnapshot>> combineList = [refSender, refReceiver];
-  //
-  //   // var newStream = Rx.combineLatest2(
-  //   //   refSender, refReceiver,
-  //   //     (List<Message>, List<Message>, )
-  //   // )
-  //   print("ok");
-  //   Rx.combineLatest(combineList, (values) => print("+++++ " + values.toString()));
-  //   // return
   // }
 
 }
