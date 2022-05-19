@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hsc_app_flutter/Pages/Firebase/DataBaseService.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/MessagesWidget.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/NewMessageWidget.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/ProfileHeaderWidget.dart';
 
-import '../../../Model/User.dart';
 
 
-class ChatPage extends StatefulWidget {
-  final User user;
-  final String chatPath;
+class GroupPage extends StatelessWidget {
 
-  const ChatPage({
-    required this.user,
-    required this.chatPath,
-    Key? key }) : super(key: key);
+  final String groupId;
+  final String groupName;
 
-  @override
-  _ChatPageState createState() => _ChatPageState();
-}
 
-class _ChatPageState extends State<ChatPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+  const GroupPage({
+    required this.groupName,
+    required this.groupId,
+    Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -33,7 +24,7 @@ class _ChatPageState extends State<ChatPage> {
     body: SafeArea(
       child: Column(
         children: [
-          ProfileHeaderWidget(name: widget.user.name),
+          ProfileHeaderWidget(name: this.groupName),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(10),
@@ -44,26 +35,18 @@ class _ChatPageState extends State<ChatPage> {
                   topRight: Radius.circular(25),
                 ),
               ),
-              child: MessagesWidget(chatPath: widget.chatPath),
+              child: MessagesWidget(chatPath: getGroupPath()),
             ),
           ),
-          NewMessageWidget(chatPath: widget.chatPath)
+          NewMessageWidget(chatPath: getGroupPath())
         ],
       ),
     ),
   );
+
+
+
+  String getGroupPath(){
+    return DataBaseService.chatCollection +"/"+ groupId +"/"+ "messages";
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,7 +3,6 @@ import 'package:hsc_app_flutter/Pages/Firebase/FirebaseApi.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/ChatBodyWidget.dart';
 import 'package:hsc_app_flutter/Pages/Utilities/Decoration.dart';
 
-import '../../../Constants/Constants.dart';
 import '../../../Model/User.dart';
 import 'widgets/ChatHeaderWidget.dart';
 

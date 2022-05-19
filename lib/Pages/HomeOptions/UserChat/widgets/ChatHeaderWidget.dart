@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hsc_app_flutter/Constants/Constants.dart';
+import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/GroupChatWidget.dart';
 
 import '../../../../Model/User.dart';
 
@@ -24,11 +24,7 @@ class ChatHeaderWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width *75,
-            child: Center(child: Text("Em desenvolvimento...")),
-          )
-
+          GroupChatWidget(),
         ],
 
       ),

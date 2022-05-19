@@ -29,6 +29,7 @@ class FirebaseApi{
         createdAt: DateTime.now()
     );
     await refMessages.add(newMessage.toJson());
+    // refMessages.parent.
 
     // final refUsers = DataBaseService.fStore.collection(DataBaseService.userCollection);
     // await refUsers.doc(id).update({UserField.lastMessageTime: DateTime.now()});
@@ -36,7 +37,7 @@ class FirebaseApi{
 
   static Future<String> getChatPath(String myId, String userId) async {
     final refChat = DataBaseService.fStore.collection("${DataBaseService.chatCollection}");
-    String usersChatField = "users";
+    const String usersChatField = "users";
 
     var x = await refChat.where(usersChatField, arrayContains: myId).get();
     bool chatExists = false;
