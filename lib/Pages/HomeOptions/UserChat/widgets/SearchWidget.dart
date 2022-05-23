@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hsc_app_flutter/Pages/Utilities/MyButtons.dart';
 
 import '../../../../Constants/Constants.dart';
 import '../../../../Model/User.dart';
@@ -18,21 +19,21 @@ class SearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.6,
-      child: ElevatedButton(
-        
-        onPressed: () => contactListDialog(context),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.search_outlined),
-            Text("Pesquisar"),
-          ],
-        ),
-
-        ),
+      child: MainButton(text: 'Pesquisar',onPressed:(){ contactListDialog(context); } , icon: Icons.search_outlined,)
     );
   }
-
+  // ElevatedButton(
+  //
+  // onPressed: () => contactListDialog(context),
+  // child: Row(
+  // mainAxisAlignment: MainAxisAlignment.center,
+  // children: [
+  // Icon(Icons.search_outlined),
+  // Text("Pesquisar"),
+  // ],
+  // ),
+  //
+  // ),
 
 
 

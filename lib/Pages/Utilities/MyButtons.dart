@@ -11,9 +11,9 @@ class MainButton extends StatelessWidget {
   final String text;
   final Function onPressed;
   final double? size;
+  final IconData? icon;
 
-
-  const MainButton({required this.onPressed, required this.text, this.size = 10});
+  const MainButton({required this.onPressed, required this.text, this.size = 10, this.icon = null});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,14 @@ class MainButton extends StatelessWidget {
           width: 25 * size!,
           height: 5 * size!,
           alignment: Alignment.center,
-          child: Text(this.text, style: TextStyle(fontSize: 2*size!),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if(this.icon!=null) Icon(this.icon),
+              SizedBox(width: 5,),
+              Text(this.text, style: TextStyle(fontSize: 2 * size!)),
+
+            ],
           ),
         ),
       ),

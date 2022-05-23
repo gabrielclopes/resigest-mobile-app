@@ -37,7 +37,7 @@ class UserChat extends StatelessWidget {
                     return Column(
                       children: [
                         Expanded(child: ChatHeaderWidget(users: users,)),
-                        Expanded(child: ChatBodyWidget(users: users,), flex: 5),
+                        Expanded(child: ChatBodyWidget(users: users,), flex: 3),
                       ],
                     );
                   }
