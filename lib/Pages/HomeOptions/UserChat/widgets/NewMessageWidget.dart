@@ -74,6 +74,7 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
     dynamic userData = await DataBaseService.getUserData();
 
     // FirebaseApi.getChatPath(myId, widget.user.idUser).then((value) => print("xxx" + value));
+
     await FirebaseApi.uploadMessage(widget.chatPath, message, myId, urlPic, userData[0]);
     _controller.clear();
   }

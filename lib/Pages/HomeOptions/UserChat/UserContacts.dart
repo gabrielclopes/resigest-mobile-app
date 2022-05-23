@@ -19,34 +19,35 @@ class UserChat extends StatelessWidget {
       appBar: DecorationClass().appBar("Chat"),
       body: SafeArea(
         child: StreamBuilder<List<User>>(
-          stream: FirebaseApi.getUsers(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState){
-              case ConnectionState.waiting:
-                return Center(child: CircularProgressIndicator());
+            stream: FirebaseApi.getUsers(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState){
+                case ConnectionState.waiting:
+                  return Center(child: CircularProgressIndicator());
               // DATA ended loading
-              default:
-                if(snapshot.hasError){
-                  return Text("Erro " + snapshot.error.toString());
-                }
-                else{
-                  final users = snapshot.data;
-                  if(users == null || users.isEmpty){
-                    return Text("Nenhum usuário encontrado");
+                default:
+                  if(snapshot.hasError){
+                    return Text("Erro " + snapshot.error.toString());
                   }
-                  return Column(
-                    children: [
-                      Expanded(child: ChatHeaderWidget(users: users,)),
-                      Expanded(child: ChatBodyWidget(users: users,), flex: 5),
-                    ],
-                  );
-                }
+                  else{
+                    final users = snapshot.data;
+                    if(users == null || users.isEmpty){
+                      return Text("Nenhum usuário encontrado");
+                    }
+                    return Column(
+                      children: [
+                        Expanded(child: ChatHeaderWidget(users: users,)),
+                        Expanded(child: ChatBodyWidget(users: users,), flex: 5),
+                      ],
+                    );
+                  }
 
+              }
             }
-          }
-          ),
-
         ),
+
+      ),
     );
   }
 }
+

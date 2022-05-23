@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hsc_app_flutter/Model/Message.dart';
 import 'package:hsc_app_flutter/Model/User.dart';
@@ -12,6 +10,8 @@ import 'package:hsc_app_flutter/Pages/Utilities/Utils.dart';
 class FirebaseApi{
   static Stream<List<User>> getUsers() => FirebaseFirestore.instance
       .collection(DataBaseService.userCollection)
+      .where(DataBaseService.nameField, isGreaterThanOrEqualTo: '')
+      .where(DataBaseService.nameField, isLessThanOrEqualTo: '' + '\uf8ff')
       .snapshots()
       .transform(Utils.transformer(User.fromJson));
 
@@ -26,7 +26,7 @@ class FirebaseApi{
         urlAvatar: urlPic,
         username: myName,
         message: message,
-        createdAt: DateTime.now()
+        createdAt: DateTime.now(),
     );
     await refMessages.add(newMessage.toJson());
     // refMessages.parent.
@@ -68,8 +68,16 @@ class FirebaseApi{
       .transform(Utils.transformer(Message.fromJson));
 
 
+  static Stream<QuerySnapshot> getChats(String myId) =>
+      DataBaseService.fStore
+          .collection(DataBaseService.chatCollection)
+          .where("users", arrayContains: myId)
+          // .orderBy(MessageField.createdAt, descending: true)
+          .snapshots();
 
-  // static void retrieveMessages(String idUser) {
+
+
+// static void retrieveMessages(String idUser) {
   //
   // }
 

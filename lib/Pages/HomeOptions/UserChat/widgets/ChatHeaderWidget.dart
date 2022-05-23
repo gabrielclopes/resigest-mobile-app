@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/GroupChatWidget.dart';
+import 'package:hsc_app_flutter/Pages/HomeOptions/UserChat/widgets/SearchWidget.dart';
 
 import '../../../../Model/User.dart';
 
@@ -20,10 +21,11 @@ class ChatHeaderWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SearchWidget(users: users),
           GroupChatWidget(),
         ],
 

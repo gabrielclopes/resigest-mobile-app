@@ -82,3 +82,23 @@ class BrightnessSwitch extends StatelessWidget {
         });
   }
 }
+
+
+class Skeleton extends StatelessWidget {
+  const Skeleton({Key? key, this.height = 50, this.width = 50, this.defaultPadding = 5}) : super(key: key);
+  final double defaultPadding;
+  final double? height, width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      padding: EdgeInsets.all(defaultPadding / 2),
+      decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.04),
+          borderRadius:
+          BorderRadius.all(Radius.circular(defaultPadding))),
+    );
+  }
+}
