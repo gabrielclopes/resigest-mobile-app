@@ -21,9 +21,8 @@ class ChatHeaderWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SearchWidget(users: users),
           GroupChatWidget(),

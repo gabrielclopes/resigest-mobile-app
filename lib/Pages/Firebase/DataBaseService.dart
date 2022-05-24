@@ -14,6 +14,7 @@ class DataBaseService {
   static final String keyCollection = "keys";
   static final String messageCollection = "messages";
 
+  static final String lastTimeMessageField = "lastMessageTime";
   static final String nameField = "nome_completo";
   static final String emailField = "email";
   static final String idField = "userId";

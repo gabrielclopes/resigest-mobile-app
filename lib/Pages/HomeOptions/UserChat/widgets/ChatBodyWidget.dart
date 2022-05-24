@@ -51,12 +51,12 @@ class ChatBodyWidget extends StatelessWidget {
       // DATA ended loading
         default:
           if(snapshot.hasError || !snapshot.hasData){
-            return Text("Erro " + snapshot.error.toString());
+            return Center(child: Text("Erro"));
           }
           else{
             final chats = snapshot.data;
             if(chats == null || chats.size == 0){
-              return Text("Nenhuma Conversa Recente");
+              return Center(child: Text("Nenhuma conversa recente"));
             }
             return ListView.builder(
               physics: BouncingScrollPhysics(),
@@ -65,12 +65,17 @@ class ChatBodyWidget extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 var chat = chats.docs[index];
                 List users = chat.get("users");
+                // retrieve message time
+                Timestamp time = chat.get(DataBaseService.lastTimeMessageField);
+                DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(time.millisecondsSinceEpoch);
+                String messageTime = dateTime.hour.toString() + ":" + dateTime.minute.toString();
+
                 int userIndex = users.indexOf(myId);
                 User recieverUser = ((userIndex == 0) ?
                 this.users.where((user) => user.idUser == users[1]).single
                 :this.users.where((user) => user.idUser == users[0]).single);
 
-                return userTile(recieverUser, context, "15:33");
+                return userTile(recieverUser, context, messageTime);
 
               },
             );
@@ -87,7 +92,7 @@ class ChatBodyWidget extends StatelessWidget {
 
   Widget userTile(User user, BuildContext context, String time) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(2.0),
       child: Container(
         height: 80,
         padding: EdgeInsets.all(8),
@@ -127,71 +132,13 @@ class ChatBodyWidget extends StatelessWidget {
           ),
           title: Row(children: [
             VerticalDivider(color: Colors.grey, thickness: 1.4),
-            Text(user.name, style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold))
+            Flexible(child: Text(user.name, style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold)))
           ],),
           trailing: Text(time),
         ),
       ),
     );
   }
-
-
-
-  // Widget buildChats() => ListView.builder(
-  //   physics: BouncingScrollPhysics(),
-  //   itemCount: users.length,
-  //   cacheExtent: 30,
-  //   itemBuilder: (context, index) {
-  //     final User user = users[index];
-  //     return Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: Container(
-  //         height: 80,
-  //         padding: EdgeInsets.all(8),
-  //         decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(30),
-  //             border: Border.all(color: outlineColor, width: 2)
-  //         ),
-  //         child: ListTile(
-  //           onTap: ()async{
-  //             String chatPath = await FirebaseApi.getChatPath(myId, user.idUser);
-  //             Navigator.of(context).push(MaterialPageRoute(
-  //               builder: (context) => ChatPage(user: user, chatPath: chatPath),
-  //             ));
-  //           },
-  //           leading: FutureBuilder(
-  //             future: DataBaseService.retrieveUserPic(user.idUser),
-  //             builder: (context, snapshot){
-  //               if(!snapshot.hasData){
-  //                 return CircularProgressIndicator();
-  //               }
-  //               else{
-  //                 if(snapshot.data.toString() == "nao"){
-  //                   return Icon(Icons.person, size: 50,);
-  //                 }
-  //                 else{
-  //                   return CircleAvatar(
-  //                     radius: 28,
-  //                     backgroundColor: (user.residenceType == 'medica') ? Colors.blueAccent : Colors.greenAccent[700],
-  //                     child: CircleAvatar(
-  //                       radius: 25,
-  //                       backgroundImage: NetworkImage(snapshot.data.toString()),
-  //                     ),
-  //                   );
-  //                 }
-  //               }
-  //             },
-  //           ),
-  //           title: Row(children: [
-  //             VerticalDivider(color: Colors.grey, thickness: 1.4),
-  //             Text(user.name, style: TextStyle(color: Colors.grey[700], fontWeight: FontWeight.bold))
-  //           ],),
-  //         ),
-  //       ),
-  //     );
-  //   },
-  // );
-
 
 }
 

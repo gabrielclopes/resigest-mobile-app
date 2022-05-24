@@ -22,20 +22,6 @@ class SearchWidget extends StatelessWidget {
       child: MainButton(text: 'Pesquisar',onPressed:(){ contactListDialog(context); } , icon: Icons.search_outlined,)
     );
   }
-  // ElevatedButton(
-  //
-  // onPressed: () => contactListDialog(context),
-  // child: Row(
-  // mainAxisAlignment: MainAxisAlignment.center,
-  // children: [
-  // Icon(Icons.search_outlined),
-  // Text("Pesquisar"),
-  // ],
-  // ),
-  //
-  // ),
-
-
 
 
   Future contactListDialog (BuildContext context) {
@@ -59,7 +45,10 @@ class SearchWidget extends StatelessWidget {
           ),
           content: buildChats(context),
           actions: [
-            Text("cancel")
+            TextButton(
+              child: Text("Voltar"),
+              onPressed: () => Navigator.pop(context),
+            )
           ],
 
 
@@ -84,7 +73,7 @@ class SearchWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           final User user = users[index];
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(2.0),
             child: Container(
               height: 80,
               padding: EdgeInsets.all(8),
@@ -94,6 +83,7 @@ class SearchWidget extends StatelessWidget {
               ),
               child: ListTile(
                 onTap: ()async{
+                  Navigator.pop(context);
                   String chatPath = await FirebaseApi.getChatPath(myId, user.idUser);
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ChatPage(user: user, chatPath: chatPath),

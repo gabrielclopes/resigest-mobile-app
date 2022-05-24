@@ -18,21 +18,25 @@ class FirebaseApi{
 
 
   static Future uploadMessage(String chatPath, String message, String myId, String urlPic, String myName) async {
-    // String chatPath = await FirebaseApi.getChatPath(myId, id);
     final refMessages = DataBaseService.fStore.collection(chatPath);
+    final refChat = DataBaseService.fStore.collection(chatPath).parent;
+    var time = DateTime.now();
+
 
     final newMessage = Message(
         idUser: myId,
         urlAvatar: urlPic,
         username: myName,
         message: message,
-        createdAt: DateTime.now(),
+        createdAt: time,
     );
     await refMessages.add(newMessage.toJson());
-    // refMessages.parent.
 
-    // final refUsers = DataBaseService.fStore.collection(DataBaseService.userCollection);
-    // await refUsers.doc(id).update({UserField.lastMessageTime: DateTime.now()});
+    // adding time to order the chats
+    refChat!.update({
+      DataBaseService.lastTimeMessageField: time,
+    });
+
   }
 
   static Future<String> getChatPath(String myId, String userId) async {
@@ -72,7 +76,7 @@ class FirebaseApi{
       DataBaseService.fStore
           .collection(DataBaseService.chatCollection)
           .where("users", arrayContains: myId)
-          // .orderBy(MessageField.createdAt, descending: true)
+          .orderBy(DataBaseService.lastTimeMessageField, descending: true)
           .snapshots();
 
 
