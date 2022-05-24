@@ -7,6 +7,7 @@ import 'package:hsc_app_flutter/Pages/Utilities/Decoration.dart';
 import '../../../../Constants/Constants.dart';
 import '../../../../Model/User.dart';
 import '../../../Firebase/DataBaseService.dart';
+import '../../../Utilities/Utils.dart';
 import '../UserChat.dart';
 
 
@@ -66,9 +67,10 @@ class ChatBodyWidget extends StatelessWidget {
                 var chat = chats.docs[index];
                 List users = chat.get("users");
                 // retrieve message time
-                Timestamp time = chat.get(DataBaseService.lastTimeMessageField);
-                DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(time.millisecondsSinceEpoch);
-                String messageTime = dateTime.hour.toString() + ":" + dateTime.minute.toString();
+                DateTime dateTime = Utils.toDateTime(chat.get(DataBaseService.lastTimeMessageField));
+                String messageTime = dateTime.toString().substring(10,16);
+                // String messageTime = dateTime.hour.toString() + ":" + dateTime.minute.toString();
+                
 
                 int userIndex = users.indexOf(myId);
                 User recieverUser = ((userIndex == 0) ?

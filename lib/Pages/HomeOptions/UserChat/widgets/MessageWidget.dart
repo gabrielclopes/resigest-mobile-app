@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Model/Message.dart';
@@ -38,7 +39,8 @@ class MessageWidget extends StatelessWidget {
     );
   }
 
-  Widget buildMessage() => Column(
+  Widget buildMessage() => Row(
+    mainAxisSize: MainAxisSize.max,
     crossAxisAlignment:
     isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
     children: <Widget>[
@@ -47,6 +49,12 @@ class MessageWidget extends StatelessWidget {
         style: TextStyle(color: isMe ? Colors.black : Colors.white),
         textAlign: isMe ? TextAlign.end : TextAlign.start,
       ),
+      Align(
+        alignment: AlignmentDirectional.bottomEnd,
+        child: Text(
+            message.createdAt.toString().substring(10,16)
+        ),
+      )
     ],
   );
 }

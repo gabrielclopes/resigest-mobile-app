@@ -8,12 +8,28 @@ import '../../../Firebase/FirebaseApi.dart';
 import '../UserChat.dart';
 
 
-class SearchWidget extends StatelessWidget {
+class SearchWidget extends StatefulWidget {
   final List<User> users;
 
   const SearchWidget({
     required this.users,
     Key? key}) : super(key: key);
+
+  @override
+  State<SearchWidget> createState() => _SearchWidgetState();
+}
+
+class _SearchWidgetState extends State<SearchWidget> {
+  final TextEditingController _controller = new TextEditingController();
+  late List<User> queryUser;
+
+
+  @override
+  void initState() {
+    queryUser = widget.users;
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +38,6 @@ class SearchWidget extends StatelessWidget {
       child: MainButton(text: 'Pesquisar',onPressed:(){ contactListDialog(context); } , icon: Icons.search_outlined,)
     );
   }
-
 
   Future contactListDialog (BuildContext context) {
     return showDialog(
@@ -37,7 +52,10 @@ class SearchWidget extends StatelessWidget {
               ),
               Expanded(
                 child: TextField(
-
+                  onChanged: (val) {
+                    updateChats(val);
+                  },
+                  controller: _controller,
                 ),
                 flex: 5,
               ),
@@ -59,7 +77,6 @@ class SearchWidget extends StatelessWidget {
 
   }
 
-
   Widget buildChats(BuildContext context) {
     Color outlineColor = Colors.lightBlueAccent;
 
@@ -68,10 +85,10 @@ class SearchWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 1,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
-        itemCount: users.length,
+        itemCount: queryUser.length,
         cacheExtent: 30,
         itemBuilder: (context, index) {
-          final User user = users[index];
+          final User user = queryUser[index];
           return Padding(
             padding: const EdgeInsets.all(2.0),
             child: Container(
@@ -126,4 +143,13 @@ class SearchWidget extends StatelessWidget {
   }
 
 
+
+  void updateChats(String value) async {
+    setState(() {
+      this.queryUser = widget.users.where((user) {
+        String name = user.name.toUpperCase();
+        return name.contains(value.toUpperCase()) ? true : false;
+      }).toList();
+    });
+  }
 }
